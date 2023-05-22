@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
-import { useHistory } from "react-router"
+// import { useHistory } from "react-router-dom"
 
 function NewCommentForm({ place, onSubmit }) {
+    // const history = useHistory()
 
     const [authors, setAuthors] = useState([])
 

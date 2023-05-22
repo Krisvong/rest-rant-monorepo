@@ -16,27 +16,31 @@ function LoginForm() {
     const [errorMessage, setErrorMessage] = useState(null)
 
       
-async function handleSubmit(e) {
-    e.preventDefault()
-    const response = await fetch(`http://localhost:5001/authentication/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(credentials)
-    })
-
-    const data = await response.json()
-
-    if (response.status === 200) {
-        setCurrentUser(data.user)
-        history.push('/')
-    } else {
-        setErrorMessage(data.message)
-    }
-    console.log(data)
-}
-  
+    async function handleSubmit(e) {
+        e.preventDefault();
+        try {
+          const response = await fetch(`http://localhost:5001/authentication/`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(credentials),
+          });
+      
+          if (!response.ok) {
+            throw new Error('Failed to fetch');
+          }
+      
+          const data = await response.json();
+          setCurrentUser(data.user);
+          history.push('/');
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          setErrorMessage('Failed to fetch data. Please try again.');
+        }
+      }
+      
 
     return (
         <main>
